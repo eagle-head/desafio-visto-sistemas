@@ -1,0 +1,22 @@
+# Ignorar tudo na raiz exceto as pastas backend e frontend
+/*
+!/backend/
+!/frontend/
+!/.gitignore
+!/README.md
+
+# IDE e editores
+.idea/
+.vscode/
+*.iml
+*.ipr
+*.iws
+
+# Sistema
+.DS_Store
+Thumbs.db
+
+# Temporários
+*.tmp
+*.temp
+*.log

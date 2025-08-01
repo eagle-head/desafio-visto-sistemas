@@ -1,0 +1,24 @@
+# Ignore artifacts:
+dist
+coverage
+node_modules
+.angular
+
+# Ignore all HTML files except those in src:
+*.html
+!src/**/*.html
+
+# Ignore lock files
+package-lock.json
+*.lock
+
+# Environment
+.env*
+
+# IDE
+.vscode
+.idea
+
+# Compiled output
+*.js.map
+*.d.ts
