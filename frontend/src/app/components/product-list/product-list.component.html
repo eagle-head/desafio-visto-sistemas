@@ -8,6 +8,29 @@
     </button>
   </mat-card-header>
 
+  <!-- Search Filter -->
+  <mat-card-content class="search-section">
+    <mat-form-field appearance="outline" class="search-field">
+      <mat-label>Search by name</mat-label>
+      <input
+        matInput
+        [(ngModel)]="searchName"
+        (input)="onSearchInput()"
+        placeholder="Enter product name..."
+      />
+      <mat-icon matSuffix>search</mat-icon>
+      <button
+        *ngIf="searchName"
+        matSuffix
+        mat-icon-button
+        (click)="clearSearch()"
+        aria-label="Clear search"
+      >
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>
+  </mat-card-content>
+
   <mat-card-content>
     <div *ngIf="loading" class="loading-state">
       <mat-spinner diameter="50"></mat-spinner>

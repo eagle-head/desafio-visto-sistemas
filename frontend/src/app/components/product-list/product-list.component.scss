@@ -2,6 +2,16 @@ mat-card {
   margin-bottom: 24px;
 }
 
+.search-section {
+  padding-top: 0 !important;
+  margin-bottom: 16px;
+
+  .search-field {
+    width: 100%;
+    max-width: 400px;
+  }
+}
+
 mat-card-header {
   display: flex;
   align-items: center;
@@ -14,6 +24,33 @@ mat-card-header {
 
 table {
   width: 100%;
+
+  .mat-mdc-cell {
+    vertical-align: middle;
+    padding: 12px 8px;
+  }
+
+  .mat-mdc-header-cell {
+    padding: 12px 8px;
+  }
+
+  // Actions column specific styling
+  .mat-column-actions {
+    width: 120px;
+    text-align: center;
+    
+    .mat-mdc-cell {
+      vertical-align: middle;
+      padding: 12px 8px;
+    }
+  }
+
+  // Description column styling to handle long text
+  .mat-column-description {
+    max-width: 300px;
+    word-wrap: break-word;
+    white-space: normal;
+  }
 }
 
 .empty-state {
