@@ -7,7 +7,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 class ProductManagementSystemApplicationTests {
 
     @Test
-    void contextLoads() {
+    void givenSpringApplication_whenContextLoads_thenShouldLoadSuccessfully() {
     }
 
 }
