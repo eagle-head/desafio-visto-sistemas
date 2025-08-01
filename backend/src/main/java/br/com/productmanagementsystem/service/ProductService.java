@@ -49,10 +49,8 @@ public class ProductService {
     }
     
     public void delete(String publicId) {
-        Product product = productRepository.findByPublicId(publicId)
-                .orElseThrow(() -> new ResourceNotFoundException(
-                        messageService.getMessage("resource.not.found.by.public.id", publicId)));
-        productRepository.delete(product);
+        productRepository.findByPublicId(publicId)
+                .ifPresent(productRepository::delete);
     }
     
     public Page<ProductResponseDTO> findByName(String name, Pageable pageable) {

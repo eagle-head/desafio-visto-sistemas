@@ -28,6 +28,21 @@ spring:
     problemdetails:
       enabled: true
 
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    operationsSorter: alpha
+    tagsSorter: alpha
+    tryItOutEnabled: true
+    filter: false
+    syntaxHighlight:
+      activated: true
+    docExpansion: none
+    defaultModelsExpandDepth: 1
+    defaultModelExpandDepth: 1
+
 logging:
   level:
     org.hibernate.SQL: DEBUG
