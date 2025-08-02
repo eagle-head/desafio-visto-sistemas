@@ -114,6 +114,14 @@
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
                 <version>${jacoco.version}</version>
+                <configuration>
+                    <excludes>
+                        <!-- Exclude main application class from coverage -->
+                        <exclude>**/ProductManagementSystemApplication.class</exclude>
+                        <!-- Exclude configuration classes -->
+                        <exclude>**/config/**/*.class</exclude>
+                    </excludes>
+                </configuration>
                 <executions>
                     <!-- Prepares the JaCoCo agent -->
                     <execution>
@@ -129,6 +137,14 @@
                         <goals>
                             <goal>report</goal>
                         </goals>
+                        <configuration>
+                            <excludes>
+                                <!-- Exclude main application class from coverage report -->
+                                <exclude>**/ProductManagementSystemApplication.class</exclude>
+                                <!-- Exclude configuration classes -->
+                                <exclude>**/config/**/*.class</exclude>
+                            </excludes>
+                        </configuration>
                     </execution>
                     <!-- Checks if minimum coverage was achieved -->
                     <execution>

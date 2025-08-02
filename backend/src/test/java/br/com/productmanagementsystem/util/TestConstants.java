@@ -1,5 +1,6 @@
 package br.com.productmanagementsystem.util;
 
+import br.com.productmanagementsystem.dto.ProductQueryDTO;
 import br.com.productmanagementsystem.dto.ProductRequestDTO;
 import br.com.productmanagementsystem.dto.ProductResponseDTO;
 import br.com.productmanagementsystem.entity.Product;
@@ -18,6 +19,9 @@ public final class TestConstants {
     public static final String ALTERNATIVE_PUBLIC_ID = "123e4567-e89b-12d3-a456-426614174000";
     public static final Long DEFAULT_ID = 1L;
     public static final Long ALTERNATIVE_ID = 2L;
+
+    // Regex Patterns
+    public static final String UUID_REGEX = "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$";
 
     // Product Data - Smartphone
     public static final String SMARTPHONE_NAME = "Smartphone Samsung Galaxy";
@@ -59,6 +63,12 @@ public final class TestConstants {
     public static final BigDecimal ZERO_PRICE = BigDecimal.ZERO;
     public static final BigDecimal NEGATIVE_PRICE = new BigDecimal("-10.00");
     public static final Integer NEGATIVE_QUANTITY = -1;
+
+    // Query Filter Data
+    public static final BigDecimal MIN_PRICE_FILTER = new BigDecimal("100.00");
+    public static final BigDecimal MAX_PRICE_FILTER = new BigDecimal("2000.00");
+    public static final Integer MIN_QUANTITY_FILTER = 1;
+    public static final Integer MAX_QUANTITY_FILTER = 100;
 
     // Factory Methods for Entities
     public static Product createDefaultProduct() {
@@ -149,6 +159,21 @@ public final class TestConstants {
                 null,
                 MINIMAL_QUANTITY
         );
+    }
+
+    public static ProductQueryDTO createDefaultProductQueryDTO() {
+        return new ProductQueryDTO(
+                SMARTPHONE_NAME,
+                MIN_PRICE_FILTER,
+                MAX_PRICE_FILTER,
+                MIN_QUANTITY_FILTER,
+                MAX_QUANTITY_FILTER,
+                false
+        );
+    }
+
+    public static ProductQueryDTO createEmptyProductQueryDTO() {
+        return new ProductQueryDTO(null, null, null, null, null, null);
     }
 
     // Private Product Builder - for internal use only
