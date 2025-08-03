@@ -11,6 +11,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.Path;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -28,6 +29,7 @@ import java.util.List;
 import java.util.Set;
 
 import static br.com.productmanagementsystem.util.TestConstants.*;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.ArgumentMatchers.any;
@@ -786,4 +788,58 @@ public final class ProductControllerTest {
                 .andExpect(jsonPath("$.errors[0].message").value("must be positive"))
                 .andExpect(jsonPath("$.errors[0].invalidValue").value("-1.5"));
     }
+
+    @Test
+    public void givenDataIntegrityViolation_whenCreatingProduct_thenShouldReturnConflictWithRFC7807() throws Exception {
+        // This test simulates a scenario where DataIntegrityViolationException is thrown
+        // (e.g., duplicate unique constraint violation, NOT NULL constraint violation)
+        // and verifies that the GlobalExceptionHandler properly converts it to HTTP 409 CONFLICT
+
+        // Arrange
+        ProductRequestDTO duplicateProduct = createDefaultProductRequestDTO();
+        
+        // Mock the service to throw DataIntegrityViolationException
+        // This simulates what happens when repository encounters a constraint violation
+        when(productService.save(any(ProductRequestDTO.class)))
+                .thenThrow(new DataIntegrityViolationException("Unique index or primary key violation"));
+
+        // Act & Assert
+        mockMvc
+                .perform(post("/api/v1/products")
+                        .content(objectMapper.writeValueAsString(duplicateProduct))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isConflict())
+                .andExpect(jsonPath("$.type").value("https://api.productmanagement.com.br/database-constraint-violation"))
+                .andExpect(jsonPath("$.title").value("Database Constraint Violation"))
+                .andExpect(jsonPath("$.detail").value("Database constraint violation occurred"))
+                .andExpect(jsonPath("$.status").value(409));
+    }
+
+    @Test
+    public void givenDataIntegrityViolation_whenUpdatingProduct_thenShouldReturnConflictWithRFC7807() throws Exception {
+        // Test the same scenario but for update operation
+
+        // Arrange
+        String publicId = DEFAULT_PUBLIC_ID;
+        ProductRequestDTO updateRequest = createUpdatedProductRequestDTO();
+        
+        // Mock the service to throw DataIntegrityViolationException
+        when(productService.update(eq(publicId), any(ProductRequestDTO.class)))
+                .thenThrow(new DataIntegrityViolationException("Column length exceeded"));
+
+        // Act & Assert
+        mockMvc
+                .perform(put("/api/v1/products/{publicId}", publicId)
+                        .content(objectMapper.writeValueAsString(updateRequest))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isConflict())
+                .andExpect(jsonPath("$.type").value("https://api.productmanagement.com.br/database-constraint-violation"))
+                .andExpect(jsonPath("$.title").value("Database Constraint Violation"))
+                .andExpect(jsonPath("$.detail").value("Database constraint violation occurred"))
+                .andExpect(jsonPath("$.status").value(409));
+    }
+
+
 }
