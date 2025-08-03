@@ -45,7 +45,11 @@ export class NotificationService {
     });
   }
 
-  show(message: string, type: NotificationType = 'info', duration?: number): void {
+  show(
+    message: string,
+    type: NotificationType = 'info',
+    duration?: number,
+  ): void {
     switch (type) {
       case 'success':
         this.showSuccess(message, duration);

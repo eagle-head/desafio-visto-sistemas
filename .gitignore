@@ -4,6 +4,7 @@
 !/frontend/
 !/.gitignore
 !/README.md
+!/docker-compose.yml
 
 # IDE e editores
 .idea/

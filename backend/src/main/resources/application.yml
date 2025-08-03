@@ -23,10 +23,10 @@ spring:
     hibernate:
       ddl-auto: create-drop
     defer-datasource-initialization: true
-    show-sql: true
+    show-sql: false
     properties:
       hibernate:
-        format_sql: true
+        format_sql: false
         jdbc:
           time_zone: UTC
   mvc:
@@ -50,5 +50,6 @@ springdoc:
 
 logging:
   level:
-    org.hibernate.SQL: DEBUG
-    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+    org.hibernate.SQL: WARN
+    org.hibernate.type.descriptor.sql.BasicBinder: WARN
+    br.com.productmanagementsystem: INFO

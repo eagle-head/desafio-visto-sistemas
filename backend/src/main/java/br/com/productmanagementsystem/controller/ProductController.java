@@ -26,7 +26,6 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/v1/products")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "*")
 @Validated
 @Tag(name = "Products", description = "CRUD operations for product management")
 public class ProductController {

@@ -22,6 +22,12 @@
         <mat-error *ngIf="productForm.get('name')?.hasError('required')">
           Name is required
         </mat-error>
+        <mat-error *ngIf="productForm.get('name')?.hasError('too_small')">
+          {{ productForm.get("name")?.errors?.["too_small"]?.["zodError"] }}
+        </mat-error>
+        <mat-error *ngIf="productForm.get('name')?.hasError('too_big')">
+          {{ productForm.get("name")?.errors?.["too_big"]?.["zodError"] }}
+        </mat-error>
       </mat-form-field>
 
       <mat-form-field appearance="outline" class="full-width">
@@ -29,14 +35,30 @@
         <input
           matInput
           type="number"
+          step="0.01"
+          min="0.01"
+          max="999999.99"
           formControlName="price"
           placeholder="0.00"
         />
         <mat-error *ngIf="productForm.get('price')?.hasError('required')">
           Price is required
         </mat-error>
-        <mat-error *ngIf="productForm.get('price')?.hasError('min')">
-          Price must be greater than zero
+        <mat-error *ngIf="productForm.get('price')?.hasError('too_small')">
+          {{ productForm.get("price")?.errors?.["too_small"]?.["zodError"] }}
+        </mat-error>
+        <mat-error *ngIf="productForm.get('price')?.hasError('too_big')">
+          {{ productForm.get("price")?.errors?.["too_big"]?.["zodError"] }}
+        </mat-error>
+        <mat-error
+          *ngIf="productForm.get('price')?.hasError('not_multiple_of')"
+        >
+          {{
+            productForm.get("price")?.errors?.["not_multiple_of"]?.["zodError"]
+          }}
+        </mat-error>
+        <mat-error *ngIf="productForm.get('price')?.hasError('invalid_type')">
+          {{ productForm.get("price")?.errors?.["invalid_type"]?.["zodError"] }}
         </mat-error>
       </mat-form-field>
 
@@ -45,14 +67,35 @@
         <input
           matInput
           type="number"
+          min="0"
+          max="999999"
           formControlName="quantity"
           placeholder="0"
         />
         <mat-error *ngIf="productForm.get('quantity')?.hasError('required')">
           Quantity is required
         </mat-error>
-        <mat-error *ngIf="productForm.get('quantity')?.hasError('min')">
-          Quantity must be greater than or equal to zero
+        <mat-error *ngIf="productForm.get('quantity')?.hasError('too_small')">
+          {{ productForm.get("quantity")?.errors?.["too_small"]?.["zodError"] }}
+        </mat-error>
+        <mat-error *ngIf="productForm.get('quantity')?.hasError('too_big')">
+          {{ productForm.get("quantity")?.errors?.["too_big"]?.["zodError"] }}
+        </mat-error>
+        <mat-error *ngIf="productForm.get('quantity')?.hasError('not_integer')">
+          {{
+            productForm.get("quantity")?.errors?.["not_integer"]?.["zodError"]
+          }}
+        </mat-error>
+        <mat-error
+          *ngIf="productForm.get('quantity')?.hasError('invalid_type')"
+        >
+          {{
+            productForm.get("quantity")?.errors?.["invalid_type"]?.["zodError"]
+          }}
+        </mat-error>
+        <!-- Business rule errors -->
+        <mat-error *ngIf="productForm.get('quantity')?.hasError('custom')">
+          {{ productForm.get("quantity")?.errors?.["custom"]?.["zodError"] }}
         </mat-error>
       </mat-form-field>
 
@@ -62,9 +105,25 @@
           matInput
           formControlName="description"
           rows="4"
-          placeholder="Enter the product description"
+          maxlength="500"
+          placeholder="Enter the product description (optional)"
         ></textarea>
+        <mat-hint align="end">
+          {{ productForm.get("description")?.value?.length || 0 }}/500
+        </mat-hint>
+        <mat-error *ngIf="productForm.get('description')?.hasError('too_big')">
+          {{
+            productForm.get("description")?.errors?.["too_big"]?.["zodError"]
+          }}
+        </mat-error>
       </mat-form-field>
+      <!-- Business Rules Validation Messages -->
+      <div *ngIf="productForm.errors" class="business-rules-errors">
+        <mat-error *ngIf="productForm.errors['custom']">
+          <mat-icon>warning</mat-icon>
+          {{ productForm.errors["custom"]["zodError"] }}
+        </mat-error>
+      </div>
     </mat-card-content>
 
     <mat-card-actions align="end">

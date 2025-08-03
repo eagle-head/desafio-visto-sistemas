@@ -18,6 +18,7 @@ public record ProductRequestDTO(
         )
         @NotBlank(message = "{validation.name.required}")
         @Size(min = 3, max = 100, message = "{validation.name.size}")
+        @Pattern(regexp = "^[a-zA-Z0-9\\s\\-_.,()]+$", message = "{validation.name.pattern}")
         String name,
 
         @Schema(
@@ -30,6 +31,7 @@ public record ProductRequestDTO(
         @NotNull(message = "{validation.price.required}")
         @DecimalMin(value = "0.01", message = "{validation.price.min}")
         @DecimalMax(value = "999999.99", message = "{validation.price.max}")
+        @Digits(integer = 6, fraction = 2, message = "{validation.price.digits}")
         BigDecimal price,
 
         @Schema(
@@ -38,6 +40,7 @@ public record ProductRequestDTO(
                 maxLength = 500
         )
         @Size(max = 500, message = "{validation.description.size}")
+        @Pattern(regexp = "^[a-zA-Z0-9\\s\\-_.,()!?]*$", message = "{validation.description.pattern}")
         String description,
 
         @Schema(

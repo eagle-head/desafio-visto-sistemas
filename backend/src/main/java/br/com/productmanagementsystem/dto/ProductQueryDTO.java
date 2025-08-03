@@ -11,7 +11,7 @@ public record ProductQueryDTO(
                 description = "Filter by product name (case insensitive)",
                 example = "Samsung"
         )
-        @Size(min = 2, max = 50, message = "{productquery.name.size}")
+        @Size(min = 1, max = 50, message = "{productquery.name.size}")
         String name,
 
         @Schema(

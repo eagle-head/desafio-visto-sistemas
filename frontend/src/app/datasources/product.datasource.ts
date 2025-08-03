@@ -36,7 +36,10 @@ export class ProductDataSource extends DataSource<Product> {
 
         // Call the service with current pagination parameters
         return this.productService
-          .getProducts(event.pageIndex, event.pageSize)
+          .getProducts({
+            page: event.pageIndex,
+            size: event.pageSize
+          })
           .pipe(
             catchError((error) => {
               console.error('Error loading products:', error);
@@ -75,7 +78,10 @@ export class ProductDataSource extends DataSource<Product> {
     this.loadingSubject.next(true);
 
     this.productService
-      .getProducts(pageIndex, pageSize)
+      .getProducts({
+        page: pageIndex,
+        size: pageSize
+      })
       .pipe(
         catchError((error) => {
           console.error('Error loading products:', error);

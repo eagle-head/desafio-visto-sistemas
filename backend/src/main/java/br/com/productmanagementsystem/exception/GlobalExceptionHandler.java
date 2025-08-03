@@ -225,6 +225,9 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Object> handleAllExceptions(Exception ex, WebRequest request) {
+        // Log complete error details for debugging (server-side only)
+        logger.error("Unexpected error occurred", ex);
+        
         HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
         String detail = messageSource.getMessage("internal.server.error.detail", null, LocaleContextHolder.getLocale());
 
@@ -232,6 +235,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         problemDetail.setType(URI.create(PROBLEM_DETAILS_BASE_URL + "/internal-server-error"));
         problemDetail.setTitle(messageSource.getMessage("error.title.internal.server.error", null, LocaleContextHolder.getLocale()));
 
+        // Never expose internal details to client
         return handleExceptionInternal(ex, problemDetail, new HttpHeaders(), status, request);
     }
 

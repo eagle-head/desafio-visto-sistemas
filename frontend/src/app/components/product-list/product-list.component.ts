@@ -23,8 +23,14 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { Subject, timer } from 'rxjs';
-import { takeUntil, catchError, finalize, debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+import {
+  takeUntil,
+  catchError,
+  finalize,
+  debounceTime,
+  distinctUntilChanged,
+} from 'rxjs/operators';
 import { Product } from '../../models/product.model';
 import { ProductService } from '../../services/product.service';
 import { NotificationService } from '../../services/notification.service';
@@ -83,11 +89,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
 
   private setupSearchSubscription(): void {
     this.searchSubject
-      .pipe(
-        debounceTime(300),
-        distinctUntilChanged(),
-        takeUntil(this.destroy$)
-      )
+      .pipe(debounceTime(300), distinctUntilChanged(), takeUntil(this.destroy$))
       .subscribe(() => {
         this.currentPage = 0;
         this.loadProducts(0, this.pageSize);
@@ -112,11 +114,18 @@ export class ProductListComponent implements OnInit, OnDestroy {
     const searchName = this.searchName?.trim() || undefined;
 
     this.productService
-      .getProducts(pageIndex, pageSize, 'id,asc', searchName)
+      .getProducts({
+        page: pageIndex,
+        size: pageSize,
+        sort: ['id,asc'],
+        name: searchName
+      })
       .pipe(
         takeUntil(this.destroy$),
         catchError((error) => {
-          this.notificationService.showError('Failed to load products. Please try again.');
+          this.notificationService.showError(
+            'Failed to load products. Please try again.',
+          );
           console.error('Error loading products:', error);
           return [
             {
@@ -177,14 +186,18 @@ export class ProductListComponent implements OnInit, OnDestroy {
               catchError((error) => {
                 this.loading = false;
                 this.cdr.detectChanges();
-                this.notificationService.showError(`Failed to delete product "${product.name}". Please try again.`);
+                this.notificationService.showError(
+                  `Failed to delete product "${product.name}". Please try again.`,
+                );
                 console.error('Error deleting product:', error);
                 return [];
               }),
             )
             .subscribe(() => {
               this.loadProducts(this.currentPage, this.pageSize);
-              this.notificationService.showSuccess(`Product "${product.name}" deleted successfully!`);
+              this.notificationService.showSuccess(
+                `Product "${product.name}" deleted successfully!`,
+              );
             });
         }
       });

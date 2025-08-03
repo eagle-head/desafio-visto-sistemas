@@ -1,0 +1,62 @@
+# Maven build artifacts
+target/
+!target/*.jar
+!target/**/target/
+
+# Maven wrapper jar file
+.mvn/wrapper/maven-wrapper.jar
+
+# IDE files
+.idea/
+.vscode/
+*.iml
+*.ipr
+*.iws
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Logs
+*.log
+logs/
+gc.log
+
+# Temporary files
+*.tmp
+*.swp
+*.swo
+*~
+
+# Git
+.git/
+.gitignore
+
+# Docker
+Dockerfile
+.dockerignore
+docker-compose.yml
+
+# Spring Boot
+application-local.properties
+application-dev.properties
+application.pid
+
+# Testing
+coverage/
+.nyc_output/
+
+# Documentation
+README.md
+*.md
+docs/
+
+# Environment variables
+.env
+.env.local
+.env.production
