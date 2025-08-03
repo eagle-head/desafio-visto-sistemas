@@ -99,7 +99,7 @@ public class ProductServiceTest {
     @Test
     public void givenInvalidPublicId_whenFindingByPublicId_thenShouldThrowResourceNotFoundException() {
         // Arrange
-        String invalidPublicId = "invalid-public-id";
+        String invalidPublicId = TestConstants.NON_EXISTENT_PUBLIC_ID;
         String errorMessage = "Resource not found with public ID: " + invalidPublicId;
         
         when(productRepository.findByPublicId(invalidPublicId)).thenReturn(Optional.empty());
@@ -191,7 +191,7 @@ public class ProductServiceTest {
     @Test
     public void givenInvalidPublicIdAndProductRequestDTO_whenUpdating_thenShouldThrowResourceNotFoundException() {
         // Arrange
-        String invalidPublicId = "invalid-public-id";
+        String invalidPublicId = TestConstants.NON_EXISTENT_PUBLIC_ID;
         ProductRequestDTO requestDTO = TestConstants.createUpdatedProductRequestDTO();
         String errorMessage = "Resource not found with public ID: " + invalidPublicId;
 

@@ -17,6 +17,8 @@ public final class TestConstants {
     // IDs
     public static final String DEFAULT_PUBLIC_ID = "550e8400-e29b-41d4-a716-446655440000";
     public static final String ALTERNATIVE_PUBLIC_ID = "123e4567-e89b-12d3-a456-426614174000";
+    public static final String NON_EXISTENT_PUBLIC_ID = "999e9999-e99b-99d4-a999-999999999999";
+    public static final String INVALID_UUID_FORMAT = "invalid-uuid-format";
     public static final Long DEFAULT_ID = 1L;
     public static final Long ALTERNATIVE_ID = 2L;
 

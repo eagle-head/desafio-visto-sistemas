@@ -12,6 +12,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Pattern;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -29,6 +30,8 @@ import org.springframework.web.bind.annotation.*;
 @Validated
 @Tag(name = "Products", description = "CRUD operations for product management")
 public class ProductController {
+
+    private static final String UUID_PATTERN = "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$";
 
     private final ProductService productService;
 
@@ -87,10 +90,12 @@ public class ProductController {
     public ResponseEntity<ProductResponseDTO> findByPublicId(
             @Parameter(
                     description = "Product public ID",
-                    example = "abc123def456",
+                    example = "550e8400-e29b-41d4-a716-446655440000",
                     required = true
             )
-            @PathVariable String publicId) {
+            @PathVariable 
+            @Pattern(regexp = UUID_PATTERN, message = "{validation.publicid.pattern}") 
+            String publicId) {
         ProductResponseDTO product = productService.findByPublicId(publicId);
         return ResponseEntity.ok(product);
     }
@@ -163,10 +168,12 @@ public class ProductController {
     public ResponseEntity<ProductResponseDTO> update(
             @Parameter(
                     description = "Public ID of the product to be updated",
-                    example = "abc123def456",
+                    example = "550e8400-e29b-41d4-a716-446655440000",
                     required = true
             )
-            @PathVariable String publicId,
+            @PathVariable 
+            @Pattern(regexp = UUID_PATTERN, message = "{validation.publicid.pattern}") 
+            String publicId,
             @Parameter(
                     description = "New product data",
                     required = true
@@ -191,10 +198,12 @@ public class ProductController {
     public ResponseEntity<Void> delete(
             @Parameter(
                     description = "Public ID of the product to be deleted",
-                    example = "abc123def456",
+                    example = "550e8400-e29b-41d4-a716-446655440000",
                     required = true
             )
-            @PathVariable String publicId) {
+            @PathVariable 
+            @Pattern(regexp = UUID_PATTERN, message = "{validation.publicid.pattern}") 
+            String publicId) {
         productService.delete(publicId);
         return ResponseEntity.noContent().build();
     }
