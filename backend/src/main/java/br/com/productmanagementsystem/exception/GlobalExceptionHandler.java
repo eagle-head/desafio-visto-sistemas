@@ -84,7 +84,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         problemDetail.setTitle(messageSource.getMessage("error.title.product.not.found", null, LocaleContextHolder.getLocale()));
         problemDetail.setProperty("productId", ex.getProductId());
 
-        return handleExceptionInternal(ex, problemDetail, new HttpHeaders(), status, request);
+        return super.handleExceptionInternal(ex, problemDetail, new HttpHeaders(), status, request);
     }
 
     @ExceptionHandler(ProductAlreadyExistsException.class)
@@ -97,7 +97,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         problemDetail.setTitle(messageSource.getMessage("error.title.product.already.exists", null, LocaleContextHolder.getLocale()));
         problemDetail.setProperty("productName", ex.getProductName());
 
-        return handleExceptionInternal(ex, problemDetail, new HttpHeaders(), status, request);
+        return super.handleExceptionInternal(ex, problemDetail, new HttpHeaders(), status, request);
     }
 
     @ExceptionHandler(ResourceNotFoundException.class)
@@ -109,7 +109,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         problemDetail.setType(URI.create(PROBLEM_DETAILS_BASE_URL + "/resource-not-found"));
         problemDetail.setTitle(messageSource.getMessage("error.title.resource.not.found", null, LocaleContextHolder.getLocale()));
 
-        return handleExceptionInternal(ex, problemDetail, new HttpHeaders(), status, request);
+        return super.handleExceptionInternal(ex, problemDetail, new HttpHeaders(), status, request);
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
@@ -121,7 +121,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         problemDetail.setType(URI.create(PROBLEM_DETAILS_BASE_URL + "/invalid-argument"));
         problemDetail.setTitle(messageSource.getMessage("error.title.invalid.argument", null, LocaleContextHolder.getLocale()));
 
-        return handleExceptionInternal(ex, problemDetail, new HttpHeaders(), status, request);
+        return super.handleExceptionInternal(ex, problemDetail, new HttpHeaders(), status, request);
     }
 
     @ExceptionHandler(ConstraintViolationException.class)
@@ -146,7 +146,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
                 .collect(Collectors.toList());
 
         problemDetail.setProperty("errors", errors);
-        return handleExceptionInternal(ex, problemDetail, new HttpHeaders(), status, request);
+        return super.handleExceptionInternal(ex, problemDetail, new HttpHeaders(), status, request);
     }
 
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
@@ -169,7 +169,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         }
 
         problemDetail.setProperty("errors", List.of(error));
-        return handleExceptionInternal(ex, problemDetail, new HttpHeaders(), status, request);
+        return super.handleExceptionInternal(ex, problemDetail, new HttpHeaders(), status, request);
     }
 
     @ExceptionHandler(DataIntegrityViolationException.class)
@@ -181,7 +181,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         problemDetail.setType(URI.create(PROBLEM_DETAILS_BASE_URL + "/database-constraint-violation"));
         problemDetail.setTitle(messageSource.getMessage("error.title.database.constraint.violation", null, LocaleContextHolder.getLocale()));
 
-        return handleExceptionInternal(ex, problemDetail, new HttpHeaders(), status, request);
+        return super.handleExceptionInternal(ex, problemDetail, new HttpHeaders(), status, request);
     }
 
     @Override
@@ -236,7 +236,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         problemDetail.setTitle(messageSource.getMessage("error.title.internal.server.error", null, LocaleContextHolder.getLocale()));
 
         // Never expose internal details to client
-        return handleExceptionInternal(ex, problemDetail, new HttpHeaders(), status, request);
+        return super.handleExceptionInternal(ex, problemDetail, new HttpHeaders(), status, request);
     }
 
     private String extractFieldName(ConstraintViolation<?> violation) {

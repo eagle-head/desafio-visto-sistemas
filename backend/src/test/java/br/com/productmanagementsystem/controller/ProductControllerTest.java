@@ -488,7 +488,7 @@ public final class ProductControllerTest {
         );
 
         when(productService.save(any(ProductRequestDTO.class)))
-                .thenThrow(new ProductAlreadyExistsException(specialProductName));
+                .thenThrow(ProductAlreadyExistsException.class);
 
         // Act & Assert
         mockMvc

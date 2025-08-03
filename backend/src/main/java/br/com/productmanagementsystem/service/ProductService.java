@@ -4,6 +4,7 @@ import br.com.productmanagementsystem.dto.ProductQueryDTO;
 import br.com.productmanagementsystem.dto.ProductRequestDTO;
 import br.com.productmanagementsystem.dto.ProductResponseDTO;
 import br.com.productmanagementsystem.entity.Product;
+import br.com.productmanagementsystem.exception.ProductAlreadyExistsException;
 import br.com.productmanagementsystem.exception.ResourceNotFoundException;
 import br.com.productmanagementsystem.mapper.ProductMapper;
 import br.com.productmanagementsystem.repository.ProductRepository;
@@ -39,6 +40,11 @@ public class ProductService {
     }
 
     public ProductResponseDTO save(ProductRequestDTO requestDTO) {
+        // Check if product with same name already exists
+        if (this.productRepository.existsByName(requestDTO.name())) {
+            throw new ProductAlreadyExistsException(requestDTO.name());
+        }
+        
         Product product = this.productMapper.toEntity(requestDTO);
         Product savedProduct = this.productRepository.save(product);
         return this.productMapper.toResponseDTO(savedProduct);

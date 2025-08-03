@@ -18,7 +18,7 @@ public record ProductRequestDTO(
         )
         @NotBlank(message = "{validation.name.required}")
         @Size(min = 3, max = 100, message = "{validation.name.size}")
-        @Pattern(regexp = "^[a-zA-Z0-9\\s\\-_.,()]+$", message = "{validation.name.pattern}")
+        @Pattern(regexp = "^[a-zA-Z0-9\\s\\-_.,()@#$%&!]+$", message = "{validation.name.pattern}")
         String name,
 
         @Schema(
